@@ -1,0 +1,13 @@
+# Node modules
+node_modules/
+
+# Project build
+dist/
+build/
+
+# JS files
+*.js
+!gulpfile.js
+
+# logs
+*.log

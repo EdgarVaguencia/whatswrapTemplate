@@ -1,0 +1,17 @@
+{
+  "name": "whatswrap",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": "Edgar Vaguencia <isc.edgarvalencia@maices.com>",
+  "devDependencies": {
+    "electron-installer-debian": "^0.8.1",
+    "electron-packager": "^11.0.0",
+    "electron-windows-installer": "^1.7.8",
+    "gulp": "^3.9.1",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-typescript": "^3.2.3",
+    "gulp-uglify": "^3.0.0",
+    "run-sequence": "^2.2.0",
+    "typescript": "2.1.6"
+  }
+}
