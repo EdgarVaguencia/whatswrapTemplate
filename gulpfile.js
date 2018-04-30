@@ -3,11 +3,13 @@ const _$ = require('gulp-load-plugins')()
 const runs = require('run-sequence')
 const ts = _$.typescript.createProject('tsconfig.json')
 const packager = require('electron-packager')
+const manifest = require('./src/package.json')
+let winInstall, debInstall
 if (process.platform === 'win32') {
-  const winInstall = require('electron-windows-installer')
+  winInstall = require('electron-windows-installer')
 }
 if (process.platform === 'linux') {
-  const debInstall = require('electron-installer-debian')
+  debInstall = require('electron-installer-debian')
 }
 
 const config = {
@@ -74,7 +76,7 @@ gulp.task('watch', () => {
   gulp.watch('src/package.json', ['build'])
 })
 
-gulp.task('pack:win32', ['build'], (done) => {
+gulp.task('pack:win32', (done) => {
   return packager({
     dir: './dist',
     arch: 'x64',
@@ -93,17 +95,17 @@ gulp.task('dist:win32', ['pack:win32'], (done) => {
   }
 
   winInstall({
-    appDirectory: './build/WhatsWrap-win32-x64',
+    appDirectory: './build/' + manifest.productName + '-win32-x64',
     outputDirectory: './build',
     authors: 'Edgar Vaguencia',
     noMsi: true,
-    exe: 'WhatsWrap.exe',
+    exe: manifest.productName + '.exe',
     iconUrl: 'https://raw.githubusercontent.com/EdgarVaguencia/WhatsWrap/master/icons/win-icon.ico',
     arch: 'ia32'
   }).then(() => console.info('Windows Success')).catch(done)
 })
 
-gulp.task('pack:linux64', ['build'], (done) => {
+gulp.task('pack:linux64', (done) => {
   return packager({
     dir: './dist',
     arch: 'x64',
@@ -122,11 +124,11 @@ gulp.task('dist:linux64', ['pack:linux64'], (done) => {
   }
 
   debInstall({
-    productName: 'whatswrap',
-    name: 'whatswrap',
-    genericName: 'whatswrap',
-    bin: 'WhatsWrap',
-    src: './build/WhatsWrap-linux-x64/',
+    productName: manifest.name,
+    name: manifest.name,
+    genericName: manifest.name,
+    bin: manifest.productName,
+    src: './build/' + manifest.productName + '-linux-x64/',
     dest: './build/',
     arch: 'amd64',
     categories: ['GNOME', 'GTK', 'Utility', 'Social'],
